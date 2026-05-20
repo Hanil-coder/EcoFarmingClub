@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 28, 25, 23; /* Stone 900 */
+  --background-rgb: 249, 248, 246; /* brand-beige */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-brand-brown;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(to bottom, #ecfdf5, #f9f8f6);
+}
