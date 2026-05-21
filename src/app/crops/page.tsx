@@ -3,7 +3,25 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { Search, Filter, ArrowRight, Sprout } from 'lucide-react';
 
-export const revalidate = 3600; // revalidate at most every hour
+export const revalidate = 0; // Disable cache for immediate data refresh
+
+// Helper to ensure correct images are used (frontend-level override)
+const getCorrectImageUrl = (cropName: string, dbUrl: string | null) => {
+  const overrides: Record<string, string> = {
+    '완두콩': 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&q=80&w=800',
+    '감자': 'https://images.unsplash.com/photo-1518977676601-b53f02bad675?auto=format&fit=crop&q=80&w=800',
+    '배추': 'https://images.unsplash.com/photo-1594313054110-388a10065096?auto=format&fit=crop&q=80&w=800',
+    '무': 'https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?auto=format&fit=crop&q=80&w=800',
+    '깻잎': 'https://images.unsplash.com/photo-1628543102308-9a4c1a705b1b?auto=format&fit=crop&q=80&w=800',
+    '고추': 'https://images.unsplash.com/photo-1588253518679-1297b48d145e?auto=format&fit=crop&q=80&w=800',
+    '오이': 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&q=80&w=800',
+    '가지': 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&q=80&w=800',
+    '부추': 'https://images.unsplash.com/photo-1620189507195-68309c04c4d0?auto=format&fit=crop&q=80&w=800',
+    '대파': 'https://images.unsplash.com/photo-1587411768638-ec71f8e33b78?auto=format&fit=crop&q=80&w=800',
+    '청경채': 'https://images.unsplash.com/photo-1620231155635-4bc27488820c?auto=format&fit=crop&q=80&w=800',
+  };
+  return overrides[cropName] || dbUrl;
+};
 
 async function getCrops() {
   const { data, error } = await supabase
@@ -80,32 +98,6 @@ const CropsPage = async () => {
                 </div>
               );
             })}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-stone-200">
-            <div className="h-20 w-20 rounded-full bg-stone-50 flex items-center justify-center mb-6">
-              <Sprout className="h-10 w-10 text-stone-200" />
-            </div>
-            <h2 className="text-xl font-bold text-brand-brown mb-2">등록된 작물이 없습니다</h2>
-            <p className="text-stone-500 mb-8">새로운 작물 가이드를 준비 중입니다. 잠시만 기다려 주세요!</p>
-            <Link href="/" className="text-brand-green font-bold flex items-center gap-1 hover:underline">
-              홈으로 돌아가기 <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default CropsPage;
-        <h3 className="text-xl font-bold text-stone-900 mb-4">{crop.name}</h3>
-                  <Link href={`/crops/${crop.id}`} className="block w-full text-center py-2 rounded-xl bg-stone-50 text-stone-600 text-sm font-medium transition-colors hover:bg-stone-100">
-                    가이드 보기
-                  </Link>
-                </div>
-              </div>
-            ))}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-stone-200">
