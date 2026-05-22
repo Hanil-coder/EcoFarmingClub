@@ -103,9 +103,6 @@ const CropsPage = async () => {
                       alt={crop.name}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Vegetable_Market.jpg/640px-Vegetable_Market.jpg';
-                      }}
                     />
                   </div>
                   <div className="p-6">
