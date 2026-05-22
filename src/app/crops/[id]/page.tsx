@@ -22,6 +22,20 @@ export default async function CropDetailPage({ params }: { params: { id: string 
     );
   }
 
+  // Fallback tips for common crops if DB is empty
+  const getFallbackTip = (name: string, currentTip: string | null) => {
+    if (currentTip && currentTip.trim().length > 10) return currentTip;
+    
+    const fallbackTips: Record<string, string> = {
+      '당근': '당근은 흙이 부드러워야 뿌리가 곧게 뻗습니다. 돌이 많은 흙은 피하고, 파종 후 싹이 나오면 간격을 5~10cm 정도로 솎아주는 것이 중요합니다. 겉흙이 마르면 물을 충분히 주되, 수확 한 달 전부터는 물주기를 줄여야 당근이 갈라지는 것을 방지할 수 있습니다.',
+      '상추': '상추는 서늘한 기후를 좋아합니다. 25도 이상의 고온에서는 꽃대가 빨리 올라오므로 여름철에는 차광막을 설치해주는 것이 좋습니다. 겉흙이 마르기 전에 수시로 물을 주어 잎을 연하게 키우세요.',
+      '방울토마토': '첫 꽃이 피면 제거해주어야 나무가 튼튼하게 자랍니다. 곁순을 수시로 제거해주고, 지주대를 세워 줄기가 꺾이지 않게 고정해주세요. 성숙기에는 물을 조금 줄여야 당도가 높아집니다.'
+    };
+    return fallbackTips[name.trim()] || '이 작물을 위한 특별한 팁이 아직 등록되지 않았습니다. 커뮤니티에 질문을 남겨보세요!';
+  };
+
+  const cultivationTip = getFallbackTip(crop.name, crop.cultivation_tip);
+
   return (
     <div className="bg-brand-beige min-h-screen pb-20">
       <div className="mx-auto max-w-4xl px-4 pt-10">
