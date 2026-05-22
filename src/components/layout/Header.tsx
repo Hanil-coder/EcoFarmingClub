@@ -22,6 +22,7 @@ const Header = () => {
         <Link href="/" className="flex items-center gap-2">
           <Leaf className="h-6 w-6 text-brand-green" />
           <span className="text-xl font-bold tracking-tight text-brand-brown">에코파밍클럽</span>
+          <span className="bg-amber-100 text-amber-700 text-[10px] px-1.5 py-0.5 rounded font-bold">V2.FIXED</span>
         </Link>
 
         {/* Desktop Navigation */}
