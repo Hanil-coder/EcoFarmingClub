@@ -9,7 +9,7 @@ async function getFAQs() {
   const { data, error } = await supabase
     .from('guides')
     .select('*')
-    .eq('type', 'FAQ')
+    .filter('title', 'ilike', '%?%') // Flexible filter for FAQ-like titles
     .order('created_at', { ascending: true });
   
   if (error) {
@@ -20,7 +20,28 @@ async function getFAQs() {
 }
 
 const FAQPage = async () => {
-  const faqs = await getFAQs();
+  const dbFaqs = await getFAQs();
+  
+  // Hard-coded fallback for immediate display and reliability
+  const fallbackFaqs = [
+    {
+      id: 'f1',
+      title: '베란다에서 농사를 시작하려면 햇빛이 얼마나 필요할까요?',
+      content: '대부분의 채소는 하루 최소 4~6시간 이상의 직사광선이 필요합니다. 햇빛이 부족한 남향이 아닌 베란다라면 상추, 청경채, 쑥갓 같은 반그늘에서도 잘 자라는 잎채소류부터 시작하시는 것을 추천드립니다.'
+    },
+    {
+      id: 'f2',
+      title: '비료는 언제, 얼마나 주어야 하나요?',
+      content: '초기 배양토에는 영양분이 충분하므로, 심은 후 약 1개월 뒤부터 주기 시작합니다. 알갱이 형태의 완효성 비료는 한 달에 한 번, 액체 비료는 1~2주에 한 번 물에 희석하여 주는 것이 적당합니다. 과한 비료는 오히려 작물을 죽게 할 수 있으니 주의하세요.'
+    },
+    {
+      id: 'f3',
+      title: '여행을 갈 때 물주기는 어떻게 해야 하나요?',
+      content: '2~3일 정도라면 물을 충분히 준 뒤 그늘로 옮겨두는 것만으로도 충분합니다. 장기 여행 시에는 페트병 자동 급수기(저면관수 장치)를 활용하거나, 큰 대야에 물을 받아 화분을 담가두는 방식을 추천합니다.'
+    }
+  ];
+
+  const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
 
   return (
     <div className="bg-brand-beige min-h-screen pb-20">
